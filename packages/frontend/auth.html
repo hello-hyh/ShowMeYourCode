@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Auth</title>
+  </head>
+  <body>
+    <h1>Auth</h1>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.6.8/axios.min.js"></script>
+    <script>
+      // 获取回调Auth的code
+      var code = window.location.search.split('=')[1]
+      // 将code发送到后端使用axios
+      console.log(code, 'code')
+      // if (code) {
+      //   axios.post('http://localhost:3000/auth', { code }).then((res) => {
+      //     console.log(res)
+      //   })
+      // }
+    </script>
+  </body>
+</html>

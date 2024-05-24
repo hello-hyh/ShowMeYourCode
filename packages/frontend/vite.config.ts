@@ -9,34 +9,37 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconsResolver from 'unplugin-icons/resolver'
-import { resolve } from 'node:path'
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 9999,
+  },
   plugins: [
     vue(),
     VueDevTools(),
     AutoImport({
       imports: ['vue', 'vue-router', 'pinia'],
       resolvers: [ElementPlusResolver()],
-      dts: resolve(__dirname + "/types/auto-imports.d.ts")
+      dts: './auto-imports.d.ts',
     }),
     Components({
-      resolvers: [ElementPlusResolver(), IconsResolver({
-        componentPrefix: '',
-        customCollections: [
-          'mdi'
-        ]
-      })],
-      dts: resolve(__dirname + "/types/components.d.ts")
+      resolvers: [
+        ElementPlusResolver(),
+        IconsResolver({
+          componentPrefix: '',
+          customCollections: ['mdi'],
+        }),
+      ],
+      dts: './components.d.ts',
     }),
     AutoIcons({
       compiler: 'vue3',
-      autoInstall: true
-    })
+      autoInstall: true,
+    }),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
 })

@@ -1,8 +1,20 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { Api } from '../../server-initiator'
+import { getGithubOAuthUrl } from '../../utils/constans'
 const activeName = ref<'moblieLogin' | 'emailLogin'>('moblieLogin')
+const githubClientId = import.meta.env.VITE_GITHUB_CLIENTID
+const loginToGithub = () => {
+  window.location.href = getGithubOAuthUrl(
+    githubClientId,
+    'user,user:email,read:user',
+  )
+}
+onMounted(async () => {})
 </script>
 <template>
   <div class="w-full h-full flex justify-center items-center login-card">
+    {{ userList }}
     <el-card class="rounded w-[420px] px-10 py-6">
       <div class="text-center mb-4">
         <h2 class="font-bold">欢迎使用ShowMeYourCode</h2>
@@ -48,7 +60,7 @@ const activeName = ref<'moblieLogin' | 'emailLogin'>('moblieLogin')
         <div class="px-1 login-third">第三方登录</div>
       </div>
       <div class="mt-2 flex items-center justify-center h-10">
-        <el-icon class="cursor-pointer" size="32">
+        <el-icon class="cursor-pointer" size="32" @click="loginToGithub">
           <mdi-github></mdi-github>
         </el-icon>
       </div>

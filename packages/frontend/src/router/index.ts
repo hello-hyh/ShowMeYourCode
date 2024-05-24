@@ -8,10 +8,28 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
     },
-    ...loginRouteArr
-  ]
+    ...loginRouteArr,
+  ],
+})
+
+const whiteList = [...loginRouteArr.map((t) => t.name!)]
+const whitePathList = ['/auth']
+
+router.beforeEach((to, from, next) => {
+  const token = window.localStorage.getItem('token')
+  console.log(to)
+  if (
+    !token &&
+    !whiteList.includes(to.name!) &&
+    !whitePathList.includes(to.path)
+  ) {
+    next({
+      name: 'login',
+    })
+  }
+  next()
 })
 
 export default router
