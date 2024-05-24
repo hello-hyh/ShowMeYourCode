@@ -31,3 +31,9 @@ coverage
 
 # project
 *.d.ts
+
+# backend
+.env
+
+# db
+db
