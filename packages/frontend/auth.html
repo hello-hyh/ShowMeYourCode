@@ -1,20 +1,27 @@
 <html>
+  <!-- 中文乱码 -->
   <head>
+    <meta charset="utf-8" />
     <title>Auth</title>
   </head>
   <body>
-    <h1>Auth</h1>
+    <h1>验证中</h1>
     <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.6.8/axios.min.js"></script>
-    <script>
+    <script type="module">
+      import { getGithubCodeAPI } from './src/utils/constans.ts'
       // 获取回调Auth的code
       var code = window.location.search.split('=')[1]
       // 将code发送到后端使用axios
-      console.log(code, 'code')
-      // if (code) {
-      //   axios.post('http://localhost:3000/auth', { code }).then((res) => {
-      //     console.log(res)
-      //   })
-      // }
+      if (code) {
+        try {
+          const { data } = await axios.post(getGithubCodeAPI, { code })
+          console.log(data, 'data')
+          window.localStorage.setItem('token', data.result.data.token)
+          window.location.href = '/'
+        } catch (error) {
+          console.log(`${error}`)
+        }
+      }
     </script>
   </body>
 </html>

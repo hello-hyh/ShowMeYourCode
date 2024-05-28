@@ -4,17 +4,25 @@ import { Api } from '../../server-initiator'
 import { getGithubOAuthUrl } from '../../utils/constans'
 const activeName = ref<'moblieLogin' | 'emailLogin'>('moblieLogin')
 const githubClientId = import.meta.env.VITE_GITHUB_CLIENTID
-const loginToGithub = () => {
-  window.location.href = getGithubOAuthUrl(
-    githubClientId,
-    'user,user:email,read:user',
-  )
+const loginToGithub = async () => {
+  const token = window.localStorage.getItem('token')
+  if (token) {
+    const res = await Api.user.verifyToekn.query(token)
+    if (res) {
+      window.location.href = '/'
+      return
+    }
+  } else {
+    window.location.href = getGithubOAuthUrl(
+      githubClientId,
+      'user,user:email,read:user',
+    )
+  }
 }
 onMounted(async () => {})
 </script>
 <template>
   <div class="w-full h-full flex justify-center items-center login-card">
-    {{ userList }}
     <el-card class="rounded w-[420px] px-10 py-6">
       <div class="text-center mb-4">
         <h2 class="font-bold">欢迎使用ShowMeYourCode</h2>
@@ -24,7 +32,7 @@ onMounted(async () => {})
           <template #label>
             <div class="">手机号登录</div>
           </template>
-          <el-form>
+          <el-form :disabled="true">
             <el-form-item>
               <el-input placeholder="请输入手机号" v-model="username" />
             </el-form-item>
@@ -37,7 +45,7 @@ onMounted(async () => {})
           <template #label>
             <div>邮箱登录</div>
           </template>
-          <el-form>
+          <el-form :disabled="true">
             <el-form-item>
               <el-input placeholder="请输入手机号" v-model="username" />
             </el-form-item>

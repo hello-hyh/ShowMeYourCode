@@ -20,7 +20,7 @@ export default defineConfig({
     AutoImport({
       imports: ['vue', 'vue-router', 'pinia'],
       resolvers: [ElementPlusResolver()],
-      dts: './auto-imports.d.ts',
+      dts: './src/types/auto-imports.d.ts',
     }),
     Components({
       resolvers: [
@@ -30,7 +30,7 @@ export default defineConfig({
           customCollections: ['mdi'],
         }),
       ],
-      dts: './components.d.ts',
+      dts: './src/types/components.d.ts',
     }),
     AutoIcons({
       compiler: 'vue3',
