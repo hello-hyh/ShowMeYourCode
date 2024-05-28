@@ -37,3 +37,7 @@ coverage
 
 # db
 db
+
+# key
+*.key
+*.pem
