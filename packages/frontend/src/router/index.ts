@@ -16,19 +16,11 @@ const router = createRouter({
 })
 
 const whiteList = [...loginRouteArr.map((t) => t.name!)]
-const whitePathList = ['/auth']
 const token = window.localStorage.getItem('token')
 
 router.beforeEach(async (to, from, next) => {
-  await useUserStore().getUserInfo()
-  if (
-    !token &&
-    !whiteList.includes(to.name!) &&
-    !whitePathList.includes(to.path)
-  ) {
-    next({
-      name: 'login',
-    })
+  if (!whiteList.includes(to.name!)) {
+    await useUserStore().getUserInfo()
   }
   next()
 })
