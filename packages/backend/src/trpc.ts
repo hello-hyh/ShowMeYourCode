@@ -1,6 +1,7 @@
 import { initTRPC, TRPCError } from '@trpc/server'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import { decodeAndVerifyJwtToken } from './utils/jwt'
+import { logger } from './logger'
 
 export const createContext = async ({
   req,
@@ -9,13 +10,18 @@ export const createContext = async ({
   async function getUserFromHeader() {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ')[1]
-      const authUser = await decodeAndVerifyJwtToken(token)
-      return authUser
+      try {
+        const authUser = await decodeAndVerifyJwtToken(token)
+        return authUser
+      } catch (error) {
+        return null
+      }
     }
     return null
   }
   const authUser = await getUserFromHeader()
   return {
+    session: req.session,
     authUser,
   }
 } // no context
@@ -35,9 +41,7 @@ export const authorizedProcedure = publicProcedure.use(
     }
     return opts.next({
       ctx: {
-        // ✅ user value is known to be non-null now
         authToken: ctx.authUser,
-        // ^?
       },
     })
   },

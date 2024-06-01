@@ -10,18 +10,46 @@ require('dotenv').config({
 })
 import { logger } from './logger'
 import { createContext, publicProcedure, router } from './trpc'
+import expressSession from 'express-session'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import { userRouter } from './router/user-router'
+import { stmpRouter } from './router/stmp-router'
 
 const appRouter = router({
   user: userRouter,
+  stmp: stmpRouter,
   test: publicProcedure.query(() => {
     logger.info(process.env.GITHUB_SECRET + '| process.env.GITHUB_SECRET')
     return process.env.GITHUB_SECRET
   }),
 })
 const app = express()
-app.use(cors())
+// 预留位置
+const allowedOrigins = ['http://localhost:9999']
+
+app.use(
+  cors({
+    credentials: true,
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true)
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          'The CORS policy for this site does not ' +
+          'allow access from the specified Origin.'
+        return callback(new Error(msg), false)
+      }
+      return callback(null, true)
+    },
+  }),
+)
+app.use(
+  expressSession({
+    secret: 'GG##@$',
+    cookie: { domain: 'localhost' },
+    resave: false,
+    saveUninitialized: false,
+  }),
+)
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({

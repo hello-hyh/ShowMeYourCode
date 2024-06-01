@@ -4,7 +4,8 @@
     "packages/frontend/env.d.ts",
     "src/**/*",
     "src/**/*.vue",
-    "node_modules/element-plus/**/*.d.ts"
+    "packages/backend/src/types/**/*.d.ts",
+    "packages/backend/session.d.ts",
   ],
   "exclude": [
     "src/**/__tests__/*"

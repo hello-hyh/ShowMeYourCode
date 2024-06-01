@@ -6,7 +6,7 @@ import { user } from '../model/user'
 import { user as UserType } from '@prisma/client'
 import GithubUserModel from '../../test.json'
 import { TRPCError } from '@trpc/server'
-import { decodeAndVerifyJwtToken } from '../utils/jwt'
+import { buildJWT, decodeAndVerifyJwtToken } from '../utils/jwt'
 
 const githubOAuthUrl = 'https://github.com/login/oauth/access_token'
 const githubOAuthGetUserInfoUrl = 'https://api.github.com/user'
@@ -85,7 +85,6 @@ export const userRouter = {
           return {
             authUser,
           }
-        } else {
         }
         return new TRPCError({
           code: 'UNAUTHORIZED',
@@ -93,6 +92,40 @@ export const userRouter = {
       } else {
         const res = await decodeAndVerifyJwtToken(token)
         return res
+      }
+    }),
+  loginByEmail: publicProcedure
+    .input(
+      z.object({
+        email: z.string(),
+        verifyCode: z.string(),
+      }),
+    )
+    .mutation(async (opt) => {
+      const { email, verifyCode } = opt.input
+      const { session } = opt.ctx
+      const sessionCode = session['code']
+      const sessionExpireTime = session['expireTime']
+      logger.info(`${sessionCode} ${sessionExpireTime}`)
+      if (!sessionCode || !sessionExpireTime) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+        })
+      }
+      if (
+        email &&
+        sessionCode === verifyCode &&
+        sessionExpireTime > Date.now()
+      ) {
+        const res = await user.createByEmail(email)
+        session['code'] = null
+        session['expireTime'] = null
+        return await buildJWT(res)
+      } else {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Login failed',
+        })
       }
     }),
 }

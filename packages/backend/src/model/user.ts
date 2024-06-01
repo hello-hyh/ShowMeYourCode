@@ -58,7 +58,21 @@ export const user = {
       },
     })
   },
-  createByThrid: async (data: UserType) => {
-    // user.findUser()
+  createByEmail: async (email: string) => {
+    const res = await user.findUser({
+      email: email,
+    })
+    if (res) {
+      return res
+    } else {
+      const newUser = await prismaClient.user.create({
+        data: {
+          email: email,
+          nick_name: email,
+          user_name: email,
+        },
+      })
+      return newUser
+    }
   },
 }
