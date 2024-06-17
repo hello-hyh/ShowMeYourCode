@@ -1,5 +1,3 @@
-const MetroSymlinksResolver = require('@rnx-kit/metro-resolver-symlinks');
-
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
 const path = require('path');
@@ -7,8 +5,6 @@ const path = require('path');
 const projectRoot = __dirname;
 
 const workspaceRoot = path.resolve(projectRoot, '../..');
-console.log(path.resolve(projectRoot, 'node_modules'), path.resolve(workspaceRoot, 'node_modules'));
-
 
 const extraNodeModules = {
   'backend': path.resolve(path.join(__dirname, '../../backend')),
