@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@showmeyourcode/backend": "workspace:*"
+    "@showmeyourcode/backend": "workspace:*",
+    "@vue/repl": "^4.2.1"
   }
 }
