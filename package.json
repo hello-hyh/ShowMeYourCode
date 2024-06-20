@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite ./packages/frontend ",
-    "preview": "vite ./packages/frontend preview",
-    "build": "vite ./packages/frontend build",
+    "preview": "vite preview ./packages/frontend ",
+    "build": "vite build ./packages/frontend ",
     "type-check": "vue-tsc --build --force",
     "serve": "tsx watch ./packages/backend/src/index.ts"
   },
