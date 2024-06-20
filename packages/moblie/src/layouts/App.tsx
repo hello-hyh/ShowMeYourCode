@@ -1,69 +1,59 @@
-import React from 'react'
-import { useColorScheme } from 'react-native'
-
+import React, { useEffect, useContext, createContext, useState } from 'react'
+import { Alert, useColorScheme } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
-import { HomeView } from '../home/index'
-import { ProfileView } from '../profile/index'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { LoginView } from '../auth/login'
+import { TabBar } from '../layouts/Tabbar'
+import { ConfirmationCodeView } from '../components/confirmation-code'
+import storage from '../store'
 
-const Tab = createBottomTabNavigator()
-
+const Stack = createNativeStackNavigator()
+export const LoginStatusCtx = createContext({
+  status: false,
+  setStauts: (status: boolean) => {},
+})
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark'
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  }
-
+  const [loginStatus, setLoginStauts] = useState(false)
+  useEffect(() => {
+    const bootstrapAsync = async () => {
+      try {
+        // await Api.user.getUserInfo.query()
+      } catch (error) {
+        Alert.alert(JSON.stringify(error))
+      }
+    }
+    bootstrapAsync().catch(err => {
+      Alert.alert(JSON.stringify(err))
+    })
+  }, [])
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Tab.Screen
-          name="Home"
-          component={HomeView}
-          options={{
-            tabBarLabel: '首页',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="home"
-                color={color}
-                size={size}
-              ></MaterialCommunityIcons>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="profile"
-          component={ProfileView}
-          options={{
-            tabBarLabel: '我的',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="account"
-                color={color}
-                size={size}
-              ></MaterialCommunityIcons>
-            ),
-          }}
-        />
-      </Tab.Navigator>
-      {/* <SafeAreaView style={backgroundStyle}>
-      
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}
-        >
-          <Text>this is Home</Text>
-        </ScrollView>
-      </SafeAreaView> */}
-    </NavigationContainer>
+    <LoginStatusCtx.Provider
+      value={{ status: loginStatus, setStauts: setLoginStauts }}
+    >
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Tab"
+            component={TabBar}
+            options={{ headerShown: false }}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="Login"
+            component={LoginView}
+            options={{
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="veiflyCode"
+            component={ConfirmationCodeView}
+            options={{
+              headerShown: true,
+            }}
+          ></Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </LoginStatusCtx.Provider>
   )
 }
 

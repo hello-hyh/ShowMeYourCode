@@ -1,5 +1,6 @@
 import { View, Text, Dimensions } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { AuthContext } from '../auth/authContext'
 type IOptionBlock = {
   name: string
   icon: string
@@ -7,26 +8,28 @@ type IOptionBlock = {
 
 const optionBlock = ({ name, icon }: IOptionBlock) => {
   return (
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingLeft: 6,
-        paddingRight: 6,
-        paddingTop: 16,
-        paddingBottom: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ececec',
-      }}
-    >
-      <View style={{ flexDirection: 'row' }}>
-        <MaterialIcons name={icon} size={18}></MaterialIcons>
-        <Text style={{ fontSize: 14, marginLeft: 12 }}>{name}</Text>
+    <AuthContext>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingLeft: 6,
+          paddingRight: 6,
+          paddingTop: 16,
+          paddingBottom: 16,
+          borderBottomWidth: 1,
+          borderBottomColor: '#ececec',
+        }}
+      >
+        <View style={{ flexDirection: 'row' }}>
+          <MaterialIcons name={icon} size={18}></MaterialIcons>
+          <Text style={{ fontSize: 14, marginLeft: 12 }}>{name}</Text>
+        </View>
+        <MaterialIcons name="chevron-right" size={18}></MaterialIcons>
       </View>
-      <MaterialIcons name="chevron-right" size={18}></MaterialIcons>
-    </View>
+    </AuthContext>
   )
 }
 
