@@ -13,9 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v1
-
+      - uses: actions/checkout@v1
       - name: use pnpm
       # use pnpm
       - uses: pnpm/action-setup@0609f0983b7a228f052f81ef4c3d6510cae254ad
@@ -28,9 +26,8 @@ jobs:
         with:
           node-version: 18
           cache: 'pnpm'
-      - run: pnpm install
-      - run: pnpm run -w build
-
+        run: pnpm install && pnpm run -w build
+        
       - name: ssh scp ssh pipelines
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
