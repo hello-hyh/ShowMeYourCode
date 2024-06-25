@@ -12,38 +12,34 @@ jobs:
     name: Build & Deploy
     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v1
-    - name: use pnpm
-    # use pnpm
-    - uses: pnpm/action-setup@0609f0983b7a228f052f81ef4c3d6510cae254ad
-      with:
-        version: 9.1.2
-    - name: build code
-    # use build
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 18
-        cache: 'pnpm'
-    - run: pnpm install && pnpm run -w build
+steps:
+  - uses: actions/checkout@v4
+  - uses: pnpm/action-setup@0609f0983b7a228f052f81ef4c3d6510cae254ad
+    with:
+      version: 6.10.0
+  - uses: actions/setup-node@v4
+    with:
+      node-version: '20'
+      cache: 'pnpm'
+  - run: pnpm install && pnpn run -w build && echo 'Build done'
 
-    - name: ssh scp ssh pipelines
-      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      env:
-        WELCOME: 'ssh scp ssh pipelines'
-        LASTSSH: 'Doing something after copying'
-      with:
-        host: ${{ secrets.DC_HOST }}
-        user: ${{ secrets.DC_USER }}
-        pass: ${{ secrets.DC_PASS }}
-        port: ${{ secrets.DC_PORT }}
-        connect_timeout: 10s
-        first_ssh: |-
-          rm -rf /www/wwwroot/showmeyourcode  
-          ls -la 
-          echo $WELCOME   
-          mkdir -p /www/wwwroot/showmeyourcode
-        scp: |-
-          ./packages/frontend/dist/* => $TARGET_DIR/
-        last_ssh: |-
-          echo $LASTSSH
+      # - name: ssh scp ssh pipelines
+      #   uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      #   env:
+      #     WELCOME: 'ssh scp ssh pipelines'
+      #     LASTSSH: 'Doing something after copying'
+      #   with:
+      #     host: ${{ secrets.DC_HOST }}
+      #     user: ${{ secrets.DC_USER }}
+      #     pass: ${{ secrets.DC_PASS }}
+      #     port: ${{ secrets.DC_PORT }}
+      #     connect_timeout: 10s
+      #     first_ssh: |-
+      #       rm -rf /www/wwwroot/showmeyourcode
+      #       ls -la
+      #       echo $WELCOME
+      #       mkdir -p /www/wwwroot/showmeyourcode
+      #     scp: |-
+      #       ./packages/frontend/dist/* => $TARGET_DIR/
+      #     last_ssh: |-
+      #       echo $LASTSSH
