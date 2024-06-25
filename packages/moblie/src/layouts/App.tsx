@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { LoginView } from '../auth/login'
 import { TabBar } from '../layouts/Tabbar'
-import { ConfirmationCodeView } from '../components/confirmation-code'
+import { ConfirmationCodeView } from '../components/Confirmation-Code'
 import storage from '../store'
 
 const Stack = createNativeStackNavigator()

@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeView } from '../home/index'
-import { ProfileView } from '../profile/index'
+import { HomeView } from '../home/Index'
+import { ProfileView } from '../profile/Index'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const Tab = createBottomTabNavigator()
