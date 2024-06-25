@@ -1,14 +1,9 @@
 {
   "extends": [
-    "@vue/tsconfig/tsconfig.dom.json",
-    "./packages/mobile/node_modules/@react-native/typescript-config/tsconfig.json"
+    "@vue/tsconfig/tsconfig.dom.json"
   ],
   "include": [
-    "packages/frontend/env.d.ts",
-    "src/**/*",
-    "src/**/*.vue",
-    "packages/backend/src/types/**/*.d.ts",
-    "packages/backend/session.d.ts",
+    "**/*/src/**/*",
   ],
   "exclude": [
     "src/**/__tests__/*"
