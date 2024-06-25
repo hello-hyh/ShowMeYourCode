@@ -1,20 +1,33 @@
-name: scp files
+name: frontend CI/CD
 on:
   push:
     branches:
-      - latest
+      - main
 
 env:
-  TARGET_DIR: /home/github/test
+  TARGET_DIR: /www/wwwroot/showmeyourcode
 
 jobs:
   build:
-    name: Build
+    name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
       - name: checkout
         uses: actions/checkout@v1
+
+      - name: build code
+      # use pnpm
+      - uses: pnpm/action-setup@0609f0983b7a228f052f81ef4c3d6510cae254ad
+        with:
+        version: 6.10.0            
+      # use build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm run -w build
 
       - name: ssh scp ssh pipelines
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
@@ -28,16 +41,11 @@ jobs:
           port: ${{ secrets.DC_PORT }}
           connect_timeout: 10s
           first_ssh: |-
-            rm -rf /home/github/test  
+            rm -rf /www/wwwroot/showmeyourcode  
             ls -la 
             echo $WELCOME   
-            mkdir -p /home/github/test/test1 &&    
-            mkdir -p /home/github/test/test2 &&
+            mkdir -p /www/wwwroot/showmeyourcode
           scp: |-
-            './test/*' => /home/github/test/
-            ./test/test1* => $TARGET_DIR/test1/
-            ./test/test*.csv => "/home/github/test/test2/"
+            ./packages/frontend/dist/* => $TARGET_DIR/
           last_ssh: |-
-            echo $LASTSSH &&
-            (mkdir test1/test || true)
-            ls -la
+            echo $LASTSSH
