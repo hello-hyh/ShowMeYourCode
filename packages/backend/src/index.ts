@@ -30,7 +30,10 @@ const allowedOrigins = ['http://localhost:9999']
 app.use(
   cors({
     credentials: true,
-    origin: function (origin, callback) {
+    origin: function (
+      origin: string,
+      callback: (arg0: Error | null, arg1: boolean) => any,
+    ) {
       if (!origin) return callback(null, true)
       if (allowedOrigins.indexOf(origin) === -1) {
         const msg =

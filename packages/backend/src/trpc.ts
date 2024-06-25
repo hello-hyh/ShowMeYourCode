@@ -20,6 +20,7 @@ export const createContext = async ({
     return null
   }
   const authUser = await getUserFromHeader()
+
   return {
     session: req.session,
     authUser,

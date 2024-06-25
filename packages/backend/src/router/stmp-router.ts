@@ -2,9 +2,18 @@ import { z } from 'zod'
 import { authorizedProcedure, publicProcedure } from '../trpc'
 import { sendEmailCode } from '../utils/stmp-server'
 import { logger } from '../logger'
+declare module 'express-session' {
+  interface SessionData {
+    code: string
+    expireTime: number
+  }
+}
 
 function getCode() {
-  return Math.random().toString(36).slice(-6)
+  const code = Math.floor(Math.random() * 1000000)
+    .toString()
+    .padStart(6, '0')
+  return code
 }
 
 export const stmpRouter = {
