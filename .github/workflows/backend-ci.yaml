@@ -44,6 +44,8 @@ jobs:
           echo  "SMTP_USER=${{ secrets.SMTP_USER }}" >> .env
           echo  "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
           echo  "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo  "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> .env
+          echo  "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env
           npx pnpm install 
           npx pnpm run pullDb 
           npx pnpm run deploy

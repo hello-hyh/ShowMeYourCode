@@ -1,20 +1,35 @@
 import express from 'express'
+import expressSession from 'express-session'
 import cors from 'cors'
 import { fileURLToPath } from 'url'
 import path, { dirname } from 'path'
+import { createClient } from 'redis'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-
 require('dotenv').config({
   path: path.resolve(__dirname, '../.env'),
 })
+const client = createClient({
+  socket: {
+    host: process.env.REDIS_HOST,
+  },
+  password: process.env.REDIS_PASSWORD,
+})
+client.connect()
+import RedisStore from 'connect-redis'
 import { logger } from './logger'
 import { createContext, publicProcedure, router } from './trpc'
-import expressSession from 'express-session'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import { userRouter } from './router/user-router'
 import { stmpRouter } from './router/stmp-router'
+client.on('error', function (err) {
+  logger.error('Redis error: ' + err)
+})
 
+let redisStore = new RedisStore({
+  client: client,
+  prefix: 'myapp:',
+})
 const appRouter = router({
   user: userRouter,
   stmp: stmpRouter,
@@ -48,9 +63,9 @@ app.use(
 app.use(
   expressSession({
     secret: 'GG##@$',
+    store: redisStore,
     cookie: {
-      sameSite: 'none',
-      secure: 'auto',
+      maxAge: 10 * 60 * 1000,
     },
     resave: false,
     saveUninitialized: false,
