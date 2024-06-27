@@ -10,11 +10,12 @@
     "deploy": "npx pm2 start app.cjs",
     "build": "tsc"
   },
-  "type": "module",
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "express": "^4.19.2"
+    "@trpc/server": "11.0.0-rc.374",
+    "express": "^4.19.2",
+    "zod": "^3.23.8"
   },
   "dependencies": {
     "@prisma/client": "5.5.2",
@@ -28,7 +29,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express-session": "^1.18.0",
+    "i": "^0.3.7",
     "jsonwebtoken": "^9.0.2",
+    "node-cmd": "^5.0.0",
     "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
     "pm2": "^5.4.1",

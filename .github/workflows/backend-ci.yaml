@@ -38,6 +38,11 @@ jobs:
         last_ssh: |-
           npm install -g pnpm
           cd $TARGET_DIR/
+          touch .env
+          echo  "JWTPRIVATEKEY=${{ secrets.JWTPRIVATEKEY }}" >> .env
+          echo  "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+          echo  "SMTP_USER=${{ secrets.SMTP_USER }}" >> .env
+          echo  "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           npx pnpm install 
           npx pnpm run pullDb 
-          npx pnpm run start
+          npx pnpm run serve
