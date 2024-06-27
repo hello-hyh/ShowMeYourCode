@@ -2,7 +2,8 @@ name: backend CI/CD
 on:
   push:
     paths:
-      - 'packages/backend/**'  
+      - 'packages/backend/**'
+      - '.github/workflows/backend-ci.yaml'
     branches:
       - main
 
