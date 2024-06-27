@@ -6,8 +6,7 @@
   "scripts": {
     "pullDb": "npx prisma db pull && npx prisma generate",
     "serve": "npx tsx ./src/index.ts",
-    "deploy-server": "",
-    "deploy": "npx pm2 start app.cjs",
+    "deploy": "npx pm2 stop app && npx pm2 start app.cjs",
     "build": "tsc"
   },
   "author": "",

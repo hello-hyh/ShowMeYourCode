@@ -45,4 +45,4 @@ jobs:
           echo  "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           npx pnpm install 
           npx pnpm run pullDb 
-          npx pnpm run serve
+          npx pnpm run deploy
