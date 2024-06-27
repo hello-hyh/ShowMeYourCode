@@ -48,7 +48,10 @@ app.use(
 app.use(
   expressSession({
     secret: 'GG##@$',
-    cookie: { domain: 'localhost' },
+    cookie: {
+      sameSite: 'none',
+      secure: 'auto',
+    },
     resave: false,
     saveUninitialized: false,
   }),
