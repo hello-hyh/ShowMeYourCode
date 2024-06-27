@@ -35,7 +35,6 @@ jobs:
           mkdir -p $TARGET_DIR/
         scp: |-
           ./packages/backend/* => $TARGET_DIR/
-          ./packages/backend/.env => $TARGET_DIR/
         last_ssh: |-
           npm install -g pnpm
           cd $TARGET_DIR/
