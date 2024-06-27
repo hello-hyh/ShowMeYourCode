@@ -38,4 +38,6 @@ jobs:
         last_ssh: |-
           npm install -g pnpm
           cd $TARGET_DIR/
-          pnpm install && pnpm run pullDb && pnpm run start
+          npx pnpm install 
+          npx pnpm run pullDb 
+          npx pnpm run start
