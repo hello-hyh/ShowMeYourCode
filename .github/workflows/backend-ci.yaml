@@ -38,7 +38,7 @@ jobs:
         last_ssh: |-
           npm install -g pnpm
           cd $TARGET_DIR/
-          source ./packages/backend/deploy-script/create-env.sh
+          source ./deploy-script/create-env.sh
           npx pnpm install 
           npx pnpm run pullDb 
           npx pnpm run deploy
