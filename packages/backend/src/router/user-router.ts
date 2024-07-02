@@ -104,8 +104,8 @@ export const userRouter = {
     .mutation(async (opt) => {
       const { email, verifyCode } = opt.input
       const { session } = opt.ctx
-      const sessionCode = session['code']
-      const sessionExpireTime = session['expireTime']
+      const sessionCode = session.code
+      const sessionExpireTime = session.expireTime
       logger.info(`${sessionCode} ${sessionExpireTime}`)
       if (!sessionCode || !sessionExpireTime) {
         throw new TRPCError({
