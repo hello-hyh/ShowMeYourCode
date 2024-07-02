@@ -22,7 +22,6 @@ jobs:
       uses: cross-the-world/ssh-scp-ssh-pipelines@latest
       env:
         WELCOME: 'ssh scp ssh pipelines'
-        LASTSSH: 'Doing something after copying'
       with:
         host: ${{ secrets.DC_HOST }}
         user: ${{ secrets.DC_USER }}
@@ -30,7 +29,7 @@ jobs:
         port: ${{ secrets.DC_PORT }}
         connect_timeout: 10s
         first_ssh: |-
-          rm -rf $TARGET_DIR/
+          rm -rf $TARGET_DIR/ (!*.pem)
           ls -la
           mkdir -p $TARGET_DIR/
         scp: |-
