@@ -1,6 +1,5 @@
 import { prismaClient } from '../../prisma'
 import { Prisma, user as UserType } from '@prisma/client'
-import GithubUserModel from '../../test.json'
 import { buildJWT } from '../utils/jwt'
 
 export const user = {

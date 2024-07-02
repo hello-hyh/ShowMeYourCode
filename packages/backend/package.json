@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "pullDb": "npx prisma db pull && npx prisma generate",
+    "dev": "npx tsx watch ./src/index.ts",
     "serve": "npx tsx ./src/index.ts",
     "deploy": "npx pm2 stop app && npx pm2 start app.cjs",
     "build": "tsc"

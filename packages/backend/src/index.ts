@@ -40,26 +40,43 @@ const appRouter = router({
 })
 const app = express()
 // 预留位置
-const allowedOrigins = ['http://localhost:9999']
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Authorization,X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method',
+  )
+  res.header(
+    'Access-Control-Allow-Methods',
+    'GET, POST, OPTIONS, PATCH, PUT, DELETE',
+  )
+  res.header('Allow', 'GET, POST, PATCH, OPTIONS, PUT, DELETE')
+  if (req.method.toLowerCase() === 'options') {
+    res.send(200)
+  } else {
+    next()
+  }
+})
+// const allowedOrigins = ['*']
 
-app.use(
-  cors({
-    credentials: true,
-    origin: function (
-      origin: string,
-      callback: (arg0: Error | null, arg1: boolean) => any,
-    ) {
-      if (!origin) return callback(null, true)
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg =
-          'The CORS policy for this site does not ' +
-          'allow access from the specified Origin.'
-        return callback(new Error(msg), false)
-      }
-      return callback(null, true)
-    },
-  }),
-)
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: function (
+//       origin: string,
+//       callback: (arg0: Error | null, arg1: boolean) => any,
+//     ) {
+//       if (!origin) return callback(null, true)
+//       if (allowedOrigins.indexOf(origin) === -1) {
+//         const msg =
+//           'The CORS policy for this site does not ' +
+//           'allow access from the specified Origin.'
+//         return callback(new Error(msg), false)
+//       }
+//       return callback(null, true)
+//     },
+//   }),
+// )
 app.use(
   expressSession({
     secret: 'GG##@$',
