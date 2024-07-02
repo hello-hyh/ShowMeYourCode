@@ -4,9 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite ./packages/frontend ",
-    "preview": "vite preview ./packages/frontend ",
-    "build": "vite build ./packages/frontend ",
+
     "type-check": "vue-tsc --build --force",
     "serve": "tsx watch ./packages/backend/src/index.ts"
   },
@@ -28,11 +26,8 @@
     "@types/node": "^20.12.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/tsconfig": "^0.5.1",
-    "autoprefixer": "^10.4.19",
     "less": "^4.2.0",
     "npm-run-all2": "^6.1.2",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3",
     "typescript": "~5.4.0",
     "unplugin-auto-import": "^0.17.6",
     "unplugin-icons": "^0.19.0",
