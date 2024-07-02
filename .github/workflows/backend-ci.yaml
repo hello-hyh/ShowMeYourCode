@@ -29,9 +29,11 @@ jobs:
         port: ${{ secrets.DC_PORT }}
         connect_timeout: 10s
         first_ssh: |-
-          rm -rf $TARGET_DIR/ (!*.pem)
+          cp $TARGET_DIR/keys /etc/ 
+          rm -rf $TARGET_DIR/ 
           ls -la
           mkdir -p $TARGET_DIR/
+          cp /etc/keys $TARGET_DIR/
         scp: |-
           ./packages/backend/* => $TARGET_DIR/
         last_ssh: |-
