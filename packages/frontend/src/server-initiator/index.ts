@@ -27,7 +27,7 @@ let fetchWarp = (...option: Parameters<typeof fetch>) => {
 const trpc = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: 'http://localhost:3000/trpc',
+      url: `${import.meta.env.VITE_BASE_API}/trpc`,
       fetch: fetchWarp,
       headers() {
         return {
